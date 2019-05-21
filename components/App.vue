@@ -2,21 +2,24 @@
     <div id="app">
         <toolbar></toolbar>
         <account-list></account-list>
-        <board></board>
+<!--        <board></board>-->
+        <repos></repos>
     </div>
 </template>
 
 <script>
-    import AccountList from "./AccountList.vue";
     import Toolbar from './Toolbar.vue'
-    import Board from './Board.vue'
+    import AccountList from "./AccountList.vue";
+    // import Board from './Board.vue'
+    import Repos from './Repos.vue'
 
 
     export default {
         components: {
             Toolbar,
             AccountList,
-            Board
+            // Board,
+            Repos
         }
     }
 </script>
