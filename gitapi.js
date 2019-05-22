@@ -62,8 +62,79 @@ function repo() {
     var is_fork;
 }
 
-
 var List = function (array) {
+    this.array = array;
+
+
+    var $ = this;
+
+    $.One = function () {
+        return One(this.array)
+    }
+
+    $.All = function () {
+        this.array;
+    }
+
+    $.Limit = function (limit) {
+        this.array;
+    }
+
+    $.Sort = function (column, sort) {
+        return Sort(this.array, column, sort)
+    }
+
+
+    $.Filter = function (key, value) {
+        return Filter(this.array, key, value)
+    }
+
+    return $;
+}
+// List - Sort - Element
+
+
+var Sort = function (array) {
+    this.array = array;
+
+    this.order = {
+        asc: 1,
+        desc: 2
+    }
+
+    this.column = {
+        created: 1,
+        desc: 2
+    }
+
+    var $ = this;
+
+
+    // Sort
+    // By Time
+    $.byNewest = function () {
+        return $.byColumn(this.column.created, this.order.asc)
+    }
+
+    $.byOldest = function () {
+        return $.byColumn(this.column.created, this.order.asc)
+    }
+
+    $.byColumn = function (column, sort) {
+        // return Sort(this.array)
+        return List(this.array);
+    }
+
+    return $;
+}
+
+var Filter = function (key, value) {
+
+    return this;
+}
+
+
+var One = function (array) {
     this.array = array;
 
     var list;
@@ -89,9 +160,38 @@ var List = function (array) {
     }
 
     function all() {
+
         return this.array;
     }
 }
+
+var Request = function () {
+    var url;
+
+    var $ = this;
+
+    // this.array = array;
+
+    $.Url = function (url) {
+        this.url = url;
+    }
+
+    $.Call = function (callback) {
+        var xhr = new XMLHttpRequest()
+        // var self = this
+        xhr.open('GET', apiURL)
+        xhr.onload = function () {
+            // console.log(xhr.responseText);
+            // self.repos = JSON.parse(xhr.responseText)
+            var result = JSON.parse(xhr.responseText)
+
+            callback(result)
+        }
+    }
+
+    return $;
+}
+
 
 function Github() {
 
@@ -109,14 +209,39 @@ function Github() {
 
     var $ = this;
 
-    $.setOrganisation = function (organisation) {
+    $.Organisation = function (organisation) {
         $.organisation = organisation;
+
         return $
     }
 
-    $.setRepository = function (repository) {
+    $.Repository = function (repository) {
+        if (repository === undefined) {
+            return $.getRepoList()
+        }
+
         $.repository = repository;
         return $
+    }
+
+    $.Owner = function (owner) {
+        $.organisation = organisation;
+
+        return $
+    }
+
+
+    $.Sort = function () {
+        return Sort(this.array)
+    }
+
+
+    $.SortByNewest = function () {
+        return Sort(this.array).Newest()
+    }
+
+    $.SortByColumn = function (column) {
+        return Sort(this.array).Column(column)
     }
 
     $.getRepoList = function (organisation) {
@@ -184,6 +309,7 @@ function Github() {
     return $;
 }
 
+
 // var Gitapi = function () {
 //
 //     var api = this;
@@ -193,7 +319,37 @@ function Github() {
 //     return api;
 // }
 
+// all Repos from Github, global searching
+// var repo_list = Github().Repository();
+// console.log(repo_list);
 
-var repos = Github().setOrganisation("tom-sapletta-com").getRepoList();
-console.log(repos);
+// all Repos from Github, global searching
+// var repo_list = Github().Repository("docs");
+// console.log(repo_list);
+
+// all Repos from Github, global searching
+// var repo_list = Github().Repository("docs").SortByNewest().Limit(5);
+// console.log(repo_list);
+
+
+// all repos from Organisation
+var repo_list = Github().Organisation("tom-sapletta-com").Repository();
+console.log(repo_list);
+
+// selected repo, list of commits
+var repos = Github().Organisation("tom-sapletta-com").Repository("docs").Commit();
+console.log(repo_selected);
+
+// selected repo, tree of files
+var repos = Github().Organisation("tom-sapletta-com").Repository("docs").File();
+console.log(repo_selected);
+
+// selected repo, tickets
+var repos = Github().Organisation("tom-sapletta-com").Repository("docs").Ticket();
+console.log(repo_selected);
+
+// get owner of selected repo
+var repos = Github().Organisation("tom-sapletta-com").Repository("docs").Owner();
+console.log(repo_selected);
+
 // console.log(Github().setOrganisation("tom-sapletta-com"));
