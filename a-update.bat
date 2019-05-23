@@ -1,2 +1,2 @@
 :: update npm
-npm install -g npm
+npm update

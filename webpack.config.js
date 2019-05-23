@@ -1,5 +1,5 @@
 module.exports = {
-    entry: './vue.js',
+    entry: './src/vue.js',
     output: {
         path: __dirname,
         filename: 'build.js'
