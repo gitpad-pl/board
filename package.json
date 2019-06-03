@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "fs": "0.0.1-security",
-    "gitpad-github": "^1.0.52",
+    "gitpad-github": "^1.0.54",
     "jquery": "^3.4.1",
     "path": "^0.12.7",
     "vue": "^1.0.21",

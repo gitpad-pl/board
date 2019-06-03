@@ -30,8 +30,6 @@
 
 <script>
 
-
-
     const ORG = 'gitpad-pl';
     // const REPO = 'docs';
     const REPO = 'app';
@@ -45,8 +43,6 @@
     // const URL_REPO = `${HOST}/${USER}/${REPO}`;
 
     var apiURL = `https://api.github.com/users/${ORG}/repos`;
-
-
 
 
     export default {
@@ -84,7 +80,6 @@
 
                 var api = require("gitpad-github");
                 // var api = require("./github");
-
                 var Github = new api.Github;
                 // console.log(api);
                 var self = this;
@@ -93,12 +88,28 @@
                 //     console.log("result",result);
                 //     self.repos = result;
                 // });
+                //
+                // Github.Organisation("tom-sapletta-com").getData(function (data) {
+                //     self.repos = api.RepoList(data);
+                //     // self.repos = api.OrgList(data);
+                //     // self.repos = api.DevList(data);
+                // });
 
-                Github.Organisation("tom-sapletta-com").getData(function (data) {
-                    self.repos = api.RepoList(data);
-                    // self.repos = api.OrgList(data);
-                    // self.repos = api.DevList(data);
-                });
+
+                Github.Organisation("tom-sapletta-com").get(
+                    function (item) {
+                        return {
+                            url: item["html_url"],
+                            name: item.name,
+                            description: item.description,
+                        }
+                    },
+                    function (all) {
+                        // var RepoList = api.List(RepoArray);
+                        console.log("repo_list", all);
+                        self.repos = all;
+                    }
+                );
 
                 // var repo_list =
                 // console.log(repo_list);
